@@ -547,10 +547,30 @@
         "role": "assistant",
         "content": "I apologize for the delay. Please try your question again.",
         "timestamp": "2026-01-27T21:37:15.333259"
+      },
+      {
+        "role": "user",
+        "content": "hello",
+        "timestamp": "2026-01-28T08:22:27.895281"
+      },
+      {
+        "role": "assistant",
+        "content": "I apologize for the delay. Please try your question again.",
+        "timestamp": "2026-01-28T08:23:25.981558"
+      },
+      {
+        "role": "user",
+        "content": "hello",
+        "timestamp": "2026-01-28T08:27:58.008007"
+      },
+      {
+        "role": "assistant",
+        "content": "I apologize for the delay. Please try your question again.",
+        "timestamp": "2026-01-28T08:27:59.503090"
       }
     ],
     "created_at": "2026-01-27T21:07:21.295304",
-    "updated_at": "2026-01-27T21:37:15.333279",
+    "updated_at": "2026-01-28T08:27:59.503136",
     "title": "hello"
   },
   "89daeb67-e2b6-4b30-8daf-f30b1cd95415": {
@@ -570,5 +590,23 @@
     "created_at": "2026-01-27T21:38:05.329476",
     "updated_at": "2026-01-27T21:39:03.646109",
     "title": "hello"
+  },
+  "f577414a-d55c-424e-8393-a58c6791d48f": {
+    "id": "f577414a-d55c-424e-8393-a58c6791d48f",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Model-specific guidance",
+        "timestamp": "2026-01-28T08:28:11.121543"
+      },
+      {
+        "role": "assistant",
+        "content": "The provided text doesn't contain specific guidance for model-specific prompting. However, it does mention that the field of **prompt engineering** is rapidly evolving, with new papers, advanced techniques, and model-specific guides emerging.\n\nThe context emphasizes that prompt engineering is a crucial skill for **interacting with and developing LLMs**. It highlights its importance in improving **LLM safety** and building new capabilities, such as augmenting LLMs with domain knowledge and external tools. The text also points to resources like an e-book and AI courses that delve into these advanced techniques.\n\nTo provide more tailored advice, could you tell me which specific LLM or model you're interested in? Knowing the model would help me offer more relevant prompt engineering strategies.",
+        "timestamp": "2026-01-28T08:28:13.341968"
+      }
+    ],
+    "created_at": "2026-01-28T08:28:11.121495",
+    "updated_at": "2026-01-28T08:28:13.341998",
+    "title": "Model-specific guidance"
   }
 }

@@ -9,7 +9,7 @@ import { NotificationService, Notification, NotificationType } from '../../Servi
   template: `
     <div class="fixed top-4 right-4 z-[9999] space-y-3 max-w-md">
       <div *ngFor="let notification of notifications" 
-           class="notification-toast animate-slide-in"
+           class="rounded-lg shadow-lg p-4 backdrop-blur-sm animate-slide-in"
            [ngClass]="getNotificationClass(notification.type)">
         <div class="flex items-start gap-3">
           <!-- Icon -->
@@ -46,27 +46,6 @@ import { NotificationService, Notification, NotificationType } from '../../Servi
     </div>
   `,
   styles: [`
-    .notification-toast {
-      @apply rounded-lg shadow-lg p-4 backdrop-blur-sm;
-      animation: slideIn 0.3s ease-out;
-    }
-
-    .notification-success {
-      @apply bg-green-500 text-white;
-    }
-
-    .notification-error {
-      @apply bg-red-500 text-white;
-    }
-
-    .notification-warning {
-      @apply bg-yellow-500 text-white;
-    }
-
-    .notification-info {
-      @apply bg-blue-500 text-white;
-    }
-
     @keyframes slideIn {
       from {
         transform: translateX(100%);
@@ -99,6 +78,17 @@ export class NotificationToastComponent implements OnInit {
   }
 
   getNotificationClass(type: NotificationType): string {
-    return `notification-${type}`;
+    switch (type) {
+      case 'success':
+        return 'bg-green-500 text-white';
+      case 'error':
+        return 'bg-red-500 text-white';
+      case 'warning':
+        return 'bg-yellow-500 text-white';
+      case 'info':
+        return 'bg-blue-500 text-white';
+      default:
+        return 'bg-gray-500 text-white';
+    }
   }
 }
