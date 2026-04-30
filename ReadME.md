@@ -41,9 +41,9 @@ This hybrid approach ensures consistent scoring while leveraging LLM flexibility
 ```
 .
 ├── AI_model/
-│   ├── scoring_artifacts/
+│   ├── ultra_diverse_prompts_v2.csv # synthetic dataset
 │   ├── requirements.txt
-│   └── DOCKERFILE
+│   └── Feature_Based_Transformers.py
 │
 ├── promptrag/
 │   ├── api/
@@ -85,7 +85,7 @@ cd AI_model
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python scoring_artifacts/infer_ridge.py
+python Feature_Based_Transformers.py
 ```
 
 ## Evaluation Flow
