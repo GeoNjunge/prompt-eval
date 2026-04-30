@@ -1,169 +1,121 @@
-# 🧠 Prompt-Eval — AI-Powered Prompt Evaluation Platform
+# PromptEval — AI-Powered Prompt Evaluation Platform
 
-This project is a full-stack application that allows users to **evaluate, score, and manage prompt templates** for various domains such as software engineering, education, and content writing.
-It integrates three major components:
+PromptEval is a full-stack system for evaluating, scoring, and managing prompt templates across domains such as software engineering, education, and content generation. The platform combines a deterministic regression-based scoring model with LLM-assisted analysis to produce structured, explainable evaluations.
 
-- 🌐 **Frontend:** Angular (19) — Modern UI for users and admins.
-- 🛠 **Backend:** Fast API + Python — Authentication, API endpoints, and business logic.
-- 🤖 **AI Model:** Python + scikit-learn — Machine learning scoring engine (served separately).
+## Architecture Overview
 
----
+The system is designed as a hybrid evaluation pipeline:
 
-## 📁 Project Structure
+* A custom-trained regression model (scikit-learn) provides deterministic scoring based on defined features (clarity, relevance, structure, etc.)
+* LLM-based components assist with contextual understanding and prompt interpretation
+* A FastAPI backend orchestrates evaluation workflows and API access
+* An Angular frontend provides user interaction, management, and visualization
+
+This hybrid approach ensures consistent scoring while leveraging LLM flexibility for contextual reasoning.
+
+## System Components
+
+### Frontend — Angular (v19)
+
+* User authentication (login/register)
+* Prompt template browsing and filtering
+* Admin dashboard for managing templates
+* Prompt evaluation interface with scoring output
+
+### Backend — FastAPI (Python)
+
+* RESTful API endpoints for authentication, templates, and evaluation
+* Business logic for prompt scoring workflows
+* Integration layer between frontend and AI services
+* Data handling and persistence logic
+
+### AI Evaluation Engine — Python (scikit-learn + LLM integration)
+
+* Ridge regression model for deterministic prompt scoring
+* Feature-based evaluation (clarity, specificity, context, relevance)
+* JSON-based structured evaluation outputs
+* Optional LLM-assisted processing for enhanced interpretation
+
+## Project Structure
 
 ```
 .
-├── AI_model/                # Python scoring model and artifacts
-│   ├── scoring_artifacts/   # Trained model, metadata & inference script
-│   ├── requirements.txt     # Python dependencies
-│   ├── DOCKERFILE           # Optional containerization for model
-│   └── my_venv/             # Python virtual environment (local)
+├── AI_model/
+│   ├── scoring_artifacts/
+│   ├── requirements.txt
+│   └── DOCKERFILE
 │
-├── backend/                 # Node.js + Express REST API
-│   ├── src/
-│   │   ├── Controllers/
-│   │   │   ├── Auth/        # Login & registration logic
-│   │   │   └── Prompts/    # Template & evaluation endpoints
-│   │   ├── Models/         # Mongoose schemas
-│   │   ├── Routes/         # Express route definitions
-│   │   └── Utils/          # Helper functions (e.g. JWT)
-│   ├── .env                # Environment variables
-│   ├── package.json
-│   └── server.ts           # Entry point
+├── promptrag/
+│   ├── api/
+│   ├── core/
+│   ├── models/
+│   ├── schemas/
+│   ├── services/
+│   ├── utils/
+│   └── server.py
 │
-└── promptEval/              # Angular Frontend (v19)
-    ├── src/app/Components/  # UI components (login, dashboard, templates, etc.)
-    ├── src/app/Guards/     # Auth guards for routes
-    ├── src/app/Services/   # HTTP services for API & AI calls
+└── promptEval/
+    ├── src/app/
     ├── angular.json
-    ├── package.json
-    └── README.md
+    └── package.json
 ```
 
----
+## Running the Project
 
-## ⚡ 1. Frontend — Angular
+### Frontend
 
-### 🧭 Features
-
-- 🔐 Authentication (Login/Register)
-- 🧰 Admin dashboard to manage templates
-- 📝 Template library with filters, ratings, and copy-to-clipboard
-- 🔎 Full-text search and filtering by difficulty, rating, and domain
-
-### ▶️ Run Frontend
-
-```bash
+```
 cd promptEval
 npm install
-npm start     # Runs on http://localhost:4200
+npm start
 ```
 
----
+### Backend
 
-## 🛠 2. Backend — Node.js + Express
-
-### 🧭 Features
-
-- 🌍 RESTful APIs for authentication, templates, and evaluation
-- 🍪 Secure cookies with JWT for login sessions
-- 🌐 CORS configuration for Angular frontend
-- 📡 Connects to MongoDB Atlas for persistent storage
-
-### ▶️ Run Backend
-
-```bash
-cd backend
-npm install
-npm run dev   # Runs on http://localhost:10000
 ```
-
-### ⚙️ Required `.env` (backend/.env)
-
-```env
-PORT=10000
-MONGO_URI=<your_mongodb_atlas_uri>
-JWT_SECRET=<your_secret_key>
-```
-
-> Make sure your IP is whitelisted in MongoDB Atlas.
-
----
-
-## 🤖 3. AI Model — Python (scikit-learn)
-
-The AI model scores prompts based on clarity, context, relevance, specificity, and creativity.
-It uses a pre-trained Ridge Regressor to generate a composite score between 0 and 10.
-
-### 📂 Key Files
-
-- `scoring_artifacts/infer_ridge.py` — Loads the model & performs inference
-- `scoring_artifacts/regressor.joblib` — Serialized trained model
-- `scoring_artifacts/meta.json` — Metadata used during inference
-
-### ▶️ Run Model
-
-```bash
-cd AI_model
-python3 -m venv my_venv
-source my_venv/bin/activate
+cd promptrag
 pip install -r requirements.txt
+uvicorn server:app --reload
+```
 
-# Run the Flask or FastAPI model server (not shown, but typically)
+### AI Model
+
+```
+cd AI_model
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 python scoring_artifacts/infer_ridge.py
 ```
 
----
+## Evaluation Flow
 
-## 🔗 Integration Flow
+1. User submits a prompt through the frontend
+2. Frontend sends request to FastAPI backend
+3. Backend processes input and forwards to evaluation engine
+4. Regression model computes deterministic score
+5. Optional LLM layer enhances contextual evaluation
+6. Structured results are returned to frontend
 
-1. 🧑‍💻 User logs in through Angular frontend.
-2. 🌐 Angular calls backend API at `http://localhost:10000/api/v1/...`.
-3. 🧠 When evaluating a prompt, backend forwards the text to the Python model endpoint (e.g., `http://localhost:5000/evaluate`).
-4. 📊 Model returns a JSON score, which backend processes and returns to frontend.
-5. 🧾 Frontend displays scores and updates templates dynamically.
+## Deployment
 
----
+* Frontend: Vercel
+* Backend: Azure
+* AI Model: Docker container
 
-## 🐳 Optional — Dockerize AI Model
+Ensure proper environment variable configuration and CORS handling across services.
 
-The `AI_model/DOCKERFILE` can be used to containerize the Python scoring service:
+## Key Design Focus
 
-```bash
-cd AI_model
-docker build -t prompt-eval-model .
-docker run -p 5000:5000 prompt-eval-model
-```
+* Deterministic prompt evaluation using a regression-based model
+* Hybrid architecture combining statistical models and LLM reasoning
+* Modular backend for extensibility
+* Separation of concerns between evaluation engine and API layer
 
----
+## Author
 
-## 🚀 Deployment Notes
+George Njunge
 
-- Frontend can be deployed on **Vercel** or **Netlify**.
-- Backend can be deployed on **Render**, **Railway**, or **Azure App Service**.
-- Python model can be deployed on **Render**, **AWS Lambda**, or **Docker + VM**.
-- Ensure proper **CORS** configuration between deployed URLs.
-- Use environment variables for API keys and secrets.
+## License
 
----
-
-## 📝 TODO / Future Work
-
-- ✅ Fix Angular clipboard copy functionality
-- 🔄 Improve error handling for Gemini API errors
-- 🧠 Add fine-tuning options for the scoring model
-- 📈 Add analytics dashboard for prompt performance
-- 🌐 Add multi-user role support
-
----
-
-## 👨‍💻 Authors
-
-- **George Njunge** — Full-stack Developer & AI Engineer
-
----
-
-## 📄 License
-
-MIT License © 2025 Prompt-Eval Project
-    
+MIT License
